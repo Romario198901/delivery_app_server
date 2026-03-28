@@ -1,0 +1,36 @@
+import { Schema, model } from 'mongoose';
+
+const productSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    image: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: ['Burgers', 'Drinks', 'Desserts', 'Pizza', 'Salads', 'Snacks'],
+    },
+    shopId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Shop',
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
+);
+export const Product = model('Product', productSchema);
