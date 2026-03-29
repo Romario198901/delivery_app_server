@@ -2,8 +2,31 @@ import createHttpError from 'http-errors';
 import { Order } from '../models/order.js';
 
 export const getAllOrders = async (req, res) => {
-  const orders = await Order.find();
-  res.status(200).json(orders);
+  const { page = 1, perPage = 10, email, phone } = req.query;
+  const skip = (page - 1) * perPage;
+
+  const ordersQuery = Order.find();
+  if (email) {
+    ordersQuery.where('email').equals(email);
+  }
+  if (phone) {
+    ordersQuery.where('phone').equals(phone);
+  }
+  if (email && phone) {
+    ordersQuery.where('email').equals(email).where('phone').equals(normalizedPhone);
+  }
+  const [totalItems, orders] = await Promise.all([
+    ordersQuery.clone().countDocuments(),
+    ordersQuery.skip(skip).limit(perPage),
+  ]);
+  const totalPages = Math.ceil(totalItems / perPage);
+  res.status(200).json({
+    page,
+    perPage,
+    totalItems,
+    totalPages,
+    orders,
+  });
 };
 
 export const getOrderById = async (req, res) => {

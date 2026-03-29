@@ -9,6 +9,7 @@ import { connectMongoDB } from './db/connectMongoDB.js';
 import shopRoutes from './routes/shopRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
+import { errors } from 'celebrate';
 // const PORT = 3000;
 const PORT = process.env.PORT ?? 3000;
 const app = express();
@@ -24,7 +25,9 @@ app.use(shopRoutes);
 app.use(productRoutes);
 app.use(orderRoutes);
 app.use(notFoundHandler);
-
+app.use(errors());
 app.use(errorHandler);
 await connectMongoDB();
-app.listen(PORT, () => { console.log(`Server is running on ${PORT}`)});
+app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
+});
