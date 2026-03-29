@@ -10,8 +10,8 @@ import shopRoutes from './routes/shopRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import { errors } from 'celebrate';
-const PORT = 3000;
-// const PORT = process.env.PORT ?? 3000;
+
+const PORT = process.env.PORT ?? 3000;
 const app = express();
 app.use(pino);
 app.use(
