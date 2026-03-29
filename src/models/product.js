@@ -25,7 +25,6 @@ const productSchema = new Schema(
     shopId: {
       type: Schema.Types.ObjectId,
       ref: 'Shop',
-      required: true,
     },
   },
   {

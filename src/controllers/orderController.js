@@ -1,13 +1,13 @@
 import createHttpError from 'http-errors';
 import { Order } from '../models/order.js';
+import { normalizePhone } from '../utils/normalizePhone.js';
 
 export const getAllOrders = async (req, res) => {
   const { page = 1, perPage = 10, email, phone } = req.query;
   const skip = (page - 1) * perPage;
-  const normalizedPhone = phone?.replace(/\s/g, '');
   const filter = {};
-  if (email) filter.email = email;
-  if (phone) filter.phone = normalizedPhone;
+  if (email) filter.email = email.toLowerCase().trim();
+  if (phone) filter.phone = normalizePhone(phone);
 
   const ordersQuery = Order.find();
   const [totalItems, orders] = await Promise.all([
@@ -36,6 +36,12 @@ export const getOrderById = async (req, res) => {
 };
 
 export const createOrder = async (req, res) => {
-  const order = await Order.create(req.body);
+  const normalizedData = {
+    ...req.body,
+    phone: normalizePhone(req.body.phone),
+    email: req.body.email?.toLowerCase().trim(),
+  };
+
+  const order = await Order.create(normalizedData);
   res.status(201).json(order);
 };
