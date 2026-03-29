@@ -33,4 +33,6 @@ const productSchema = new Schema(
     versionKey: false,
   },
 );
+productSchema.index({ shopId: 1, category: 1, price: 1 });
+productSchema.index({ shopId: 1, category: 1, name: 1 });
 export const Product = model('Product', productSchema);

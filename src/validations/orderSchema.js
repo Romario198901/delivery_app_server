@@ -5,8 +5,10 @@ export const getOrdersSchema = {
   [Segments.QUERY]: Joi.object({
     page: Joi.number().integer().min(1).default(1),
     perPage: Joi.number().integer().min(1).max(10).default(10),
-    email: Joi.string().email().lowercase().trim(),
-    phone: Joi.string().trim(),
+    email: Joi.string().email().trim(),
+    phone: Joi.string()
+      .trim()
+      .pattern(/^\+?[0-9]{10,15}$/),
   }),
 };
 const createOrderItemSchema = Joi.object({

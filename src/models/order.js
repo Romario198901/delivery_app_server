@@ -23,7 +23,7 @@ const orderItemSchema = new Schema(
       min: 1,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const orderSchema = new Schema(
@@ -50,12 +50,12 @@ const orderSchema = new Schema(
       trim: true,
     },
     items: {
-type: [orderItemSchema],
-required: true,
-validate: {
-validator:(value) => value.length > 0,
-message: 'Order must contain at least one item',
-},
+      type: [orderItemSchema],
+      required: true,
+      validate: {
+        validator: (value) => value.length > 0,
+        message: 'Order must contain at least one item',
+      },
     },
     totalPrice: {
       type: Number,
@@ -68,4 +68,6 @@ message: 'Order must contain at least one item',
     versionKey: false,
   },
 );
+orderSchema.index({ email: 1, createdAt: -1 });
+orderSchema.index({ phone: 1, createdAt: -1 });
 export const Order = model('Order', orderSchema);

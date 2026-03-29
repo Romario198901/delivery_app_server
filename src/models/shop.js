@@ -18,4 +18,5 @@ const shopSchema = new Schema(
   },
   { timestamps: true, versionKey: false },
 );
+shopSchema.index({ rating: 1 });
 export const Shop = model('Shop', shopSchema);

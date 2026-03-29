@@ -5,15 +5,9 @@ export const getProductsSchema = {
     page: Joi.number().integer().min(1).default(1),
     perPage: Joi.number().integer().min(1).max(10).default(10),
     shopId: Joi.string().custom(objectIdValidator),
-    category: Joi.string().valid(
-      'Burgers',
-      'Drinks',
-      'Desserts',
-      'Pizza',
-      'Salads',
-      'Snacks',
-    ),
-    price: Joi.number().positive(),
+      categories: Joi.string(),
+    sortBy: Joi.string().valid('price', 'name'),
+    sortOrder: Joi.string().valid('asc', 'desc').default('asc'),
   }),
 };
 export const productIdParamSchema = {
