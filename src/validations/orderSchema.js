@@ -12,6 +12,10 @@ export const getOrdersSchema = {
   }),
 };
 const createOrderItemSchema = Joi.object({
+   productId: Joi.string().required().messages({
+    'string.base': 'productId must be a string',
+    'any.required': 'productId is required',
+  }),
   name: Joi.string().min(3).required().trim().messages({
     'string.base': 'Name must be a string',
     'string.min': 'Name should have at least 3 characters',
